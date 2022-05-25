@@ -24,13 +24,13 @@ const localizer = dateFnsLocalizer({
 const events  = [
     {
         title: "sandbox-scheduler-1",
-        start: new Date(2022, 5, 21),
-        end: new Date(2022, 5, 24),
+        start: new Date(2022, 6, 21),
+        end: new Date(2022, 6, 24),
     },
     {
         title: "sandbox-scheduler-2",
-        start: new Date(2022, 6, 7),
-        end: new Date(2022, 6, 10),
+        start: new Date(2022, 6, 21),
+        end: new Date(2022, 6, 24),
     }
 ];
 
