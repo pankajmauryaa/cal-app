@@ -1,12 +1,11 @@
 import Calendar from "./components/Calendar";
-import "./App.css"
 
 function App() {
-    return (
-      <div className="App">
-       <Calendar/>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Calendar/>
+    </div>
+  );
+}
 
 export default App;

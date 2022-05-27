@@ -1,0 +1,24 @@
+.heading {
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.btn {
+    float: right;
+    margin-top: 20px;
+    margin-right: 90px;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    margin-left: 12rem;
+    
+ }
+ 
+ .flex-container>div {
+    margin: 20px;
+    padding: 10%;
+ }
+

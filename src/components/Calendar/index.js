@@ -1,61 +1,132 @@
-import React from 'react'
-import format from "date-fns/format";
-import getDay from "date-fns/getDay";
-import parse from "date-fns/parse";
-import startOfWeek from "date-fns/startOfWeek";
+import React from "react";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import moment from "moment";
 import { useState } from "react";
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import Datetime from "react-datetime";
+import "react-datetime/css/react-datetime.css";
+import "@momentum-ui/core/css/momentum-ui.min.css";
+import "./Index.css";
+import { Input, Button, Modal, ModalBody, ModalFooter, ModalHeader, Label,} from "@momentum-ui/react";
 
-const locales = {
-    "en-US": require("date-fns/locale/en-US"),
-};
+const localizer = momentLocalizer(moment);
 
-const localizer = dateFnsLocalizer({
-    format,
-    parse,
-    startOfWeek,
-    getDay,
-    locales,
-});
-
-const events  = [
-    {
-        title: "sandbox-scheduler-1",
-        start: new Date(2022, 6, 21),
-        end: new Date(2022, 6, 24),
-    },
-    {
-        title: "sandbox-scheduler-2",
-        start: new Date(2022, 6, 21),
-        end: new Date(2022, 6, 24),
-    }
+const events = [
+  {
+    title: "My Event",
+    start: new Date(2022, 4, 26, 2, 0, 0),
+    end: new Date(2022, 4, 26, 3, 30, 0),
+  },
 ];
 
-export default function Main() {
-
-    const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
-    const [allEvents, setAllEvents] = useState(events);
-
-    function handleAddEvent() {
-        setAllEvents([...allEvents, newEvent]);
-    }
-
+class EventModal extends React.PureComponent {
+  
+  state = { showModal: false };
+  render() {
     return (
-        <div>
-            <h1>Calendar</h1>
-            <h2>Add New Event</h2>
-            <div>
-                <input type="text" placeholder="Add Title" style={{ width: "20%", marginRight: "10px" }} value={newEvent.title} onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })} />
-                <DatePicker placeholderText="Start Date" style={{ marginRight: "10px" }} selected={newEvent.start} onChange={(start) => setNewEvent({ ...newEvent, start })} />
-                <DatePicker placeholderText="End Date" selected={newEvent.end} onChange={(end) => setNewEvent({ ...newEvent, end })} />
-                <button stlye={{ marginTop: "10px" }} onClick={handleAddEvent}>
-                    Add Event
-                </button>
+      <div className="row">
+        <Button
+          children="Create Event"
+          onClick={() => this.setState({ showModal: true })}
+          color="blue"
+        />
+        <Modal
+          onHide={() => this.setState({ showModal: false })}
+          show={this.state.showModal}
+          ref={(modal1) => (this.modal1 = modal1)}
+          htmlId="modal1"
+          backdropClickExit
+        >
+          <ModalHeader headerLabel="Create Event" showCloseButton />
+          <ModalBody>
+            <div className="container">
+              <Label>Title</Label>
+              <div className="flex-container">
+                <Input placeholder="Add title" />
+              </div>
             </div>
-            <Calendar localizer={localizer} events={allEvents} startAccessor="start" endAccessor="end" style={{ height: 500, margin: "50px" }} />
-        </div>
+            <div className="container">
+              <Label>Start Date</Label>
+              <div className="flex-container">
+              <Datetime children="End Date and Time"/>
+              </div>
+            </div>
+            <div className="container">
+              <Label>End Date</Label>
+              <div className="flex-container">
+              <Datetime />
+              </div>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              children="Close"
+              onClick={() => this.modal1.closeModal()}
+              ariaLabel="Close Modal"
+              color="default"
+            />
+            <Button
+              children="Create"
+              type="submit"
+              // onClick={()}
+              ariaLabel="Submit Form"
+              color="blue"
+            />
+          </ModalFooter>
+        </Modal>
+      </div>
     );
+  }
 }
+
+
+
+export default function Cal(props) {
+  const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
+  const [allEvents, setAllEvents] = useState(events);
+
+  function handleAddEvent() {
+    setAllEvents([...allEvents, newEvent]);
+  }
+
+  return (
+    <div>
+      <h1 className="heading">Sandbox Scheduler</h1>
+      <div className="btn">
+        <EventModal/>
+      </div>
+      <Calendar
+        localizer={localizer}
+        events={allEvents}
+        startAccessor="start"
+        endAccessor="end"
+        style={{ height: 500, margin: "80px" }}
+        timeslots={1}
+      />
+    </div>
+  );
+}
+
+
+/*
+
+        <Input
+          inputSize="small-5"
+          placeholder="Add Title"
+          value={newEvent.title}
+          onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+        />
+        <Datetime
+          selected={newEvent.start}
+          onChange={(start) => setNewEvent({ ...newEvent, start })}
+        />
+        <Datetime
+          placeholderText="End Date"
+          selected={newEvent.end}
+          onChange={(end) => setNewEvent({ ...newEvent, end })}
+        />
+        <Button ariaLabel="Test" color="blue" onClick={handleAddEvent}>
+          Add Event
+        </Button>
+      </div>
+*/
