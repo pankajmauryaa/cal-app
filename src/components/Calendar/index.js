@@ -5,7 +5,7 @@ import { useState } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "@momentum-ui/core/css/momentum-ui.min.css";
 import CreateEvent from './CreateEvent';
-import './index.css';
+import '../styles/index.css';
 
 
 const localizer = momentLocalizer(moment);
@@ -31,7 +31,7 @@ export default function Cal(props) {
     <div>
       <h1 className="heading">Sandbox Scheduler</h1>
       <div className="btn">
-        <CreateEvent/>
+        <CreateEvent />
       </div>
       <Calendar
         localizer={localizer}
@@ -64,7 +64,7 @@ export default function Cal(props) {
           onChange={(end) => setNewEvent({ ...newEvent, end })}
         />
         <Button ariaLabel="Test" color="blue" onClick={handleAddEvent}>
-          Add Event
+          Add Evenć
         </Button>
       </div>
 */
