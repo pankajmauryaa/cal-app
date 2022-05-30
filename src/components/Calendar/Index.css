@@ -13,12 +13,10 @@
 .container {
     display: flex;
     align-items: center;
-    margin-left: 12rem;
-    
- }
+    margin-left: 12em;
+}
  
- .flex-container>div {
-    margin: 20px;
-    padding: 10%;
+ .flex-container{
+    margin: 25px;
  }
 

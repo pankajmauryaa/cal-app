@@ -3,11 +3,10 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import { useState } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import Datetime from "react-datetime";
-import "react-datetime/css/react-datetime.css";
 import "@momentum-ui/core/css/momentum-ui.min.css";
-import "./Index.css";
-import { Input, Button, Modal, ModalBody, ModalFooter, ModalHeader, Label,} from "@momentum-ui/react";
+import CreateEvent from './CreateEvent';
+import './index.css';
+
 
 const localizer = momentLocalizer(moment);
 
@@ -18,67 +17,6 @@ const events = [
     end: new Date(2022, 4, 26, 3, 30, 0),
   },
 ];
-
-class EventModal extends React.PureComponent {
-  
-  state = { showModal: false };
-  render() {
-    return (
-      <div className="row">
-        <Button
-          children="Create Event"
-          onClick={() => this.setState({ showModal: true })}
-          color="blue"
-        />
-        <Modal
-          onHide={() => this.setState({ showModal: false })}
-          show={this.state.showModal}
-          ref={(modal1) => (this.modal1 = modal1)}
-          htmlId="modal1"
-          backdropClickExit
-        >
-          <ModalHeader headerLabel="Create Event" showCloseButton />
-          <ModalBody>
-            <div className="container">
-              <Label>Title</Label>
-              <div className="flex-container">
-                <Input placeholder="Add title" />
-              </div>
-            </div>
-            <div className="container">
-              <Label>Start Date</Label>
-              <div className="flex-container">
-              <Datetime children="End Date and Time"/>
-              </div>
-            </div>
-            <div className="container">
-              <Label>End Date</Label>
-              <div className="flex-container">
-              <Datetime />
-              </div>
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              children="Close"
-              onClick={() => this.modal1.closeModal()}
-              ariaLabel="Close Modal"
-              color="default"
-            />
-            <Button
-              children="Create"
-              type="submit"
-              // onClick={()}
-              ariaLabel="Submit Form"
-              color="blue"
-            />
-          </ModalFooter>
-        </Modal>
-      </div>
-    );
-  }
-}
-
 
 
 export default function Cal(props) {
@@ -93,7 +31,7 @@ export default function Cal(props) {
     <div>
       <h1 className="heading">Sandbox Scheduler</h1>
       <div className="btn">
-        <EventModal/>
+        <CreateEvent/>
       </div>
       <Calendar
         localizer={localizer}
