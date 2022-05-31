@@ -11,8 +11,8 @@ import {
 } from "@momentum-ui/react";
 
 export default class EventModal extends React.PureComponent {
-  state = { showModal: false };  
-  
+  state = { showModal: false };
+
   render() {
     return (
       <div className="row">
@@ -22,7 +22,7 @@ export default class EventModal extends React.PureComponent {
           color="blue"
         />
         <Modal
-         applicationId="sandbox-scheduler"
+          applicationId="sandbox-scheduler"
           onHide={() => this.setState({ showModal: false })}
           show={this.state.showModal}
           ref={(modal1) => (this.modal1 = modal1)}
@@ -34,10 +34,7 @@ export default class EventModal extends React.PureComponent {
             <div className="container">
               <label>Title</label>
               <div className="flex-container">
-                <Input
-                  className="input"
-                  placeholder="Add Title"
-                />
+                <Input className="input" placeholder="Add Title" />
               </div>
             </div>
             <div className="container">

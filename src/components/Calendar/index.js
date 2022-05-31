@@ -4,7 +4,7 @@ import moment from "moment";
 import { useState } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "@momentum-ui/core/css/momentum-ui.min.css";
-//import CreateEvent from "./CreateEvent";
+// import CreateEvent from "./CreateEvent";
 import CreateEvent from "./functional";
 import "../styles/index.css";
 
@@ -18,7 +18,7 @@ const events = [
   },
 ]
 
-export default function Cal(props) {
+export default function Cal() {
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
   const [allEvents, setAllEvents] = useState(events);
 
