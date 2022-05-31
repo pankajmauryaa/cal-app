@@ -7,6 +7,7 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
+  Input,
 } from '@momentum-ui/react'
 
 function CreateEvent(props) {
@@ -17,7 +18,7 @@ function CreateEvent(props) {
     <div className="row">
       <Button
         children="Create Event"
-        onClick={() => setShowConfirmRemove({ showModal: true })}
+        onClick={() => setShowConfirmRemove({ showConfirmRemove: true })}
         color="blue"
       />
       <Modal
@@ -33,13 +34,13 @@ function CreateEvent(props) {
           <div className="container">
             <label>Title</label>
             <div className="flex-container">
-              <input className="input" />
+              <Input className="input" placeholder="Add Title" />
             </div>
           </div>
           <div className="container">
             <label>Start Date</label>
             <div className="flex-container">
-              <Datetime />
+              <Datetime className="start-date" />
             </div>
           </div>
           <div className="container">
