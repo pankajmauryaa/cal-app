@@ -7,7 +7,7 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
-  Input,
+  Input
 } from '@momentum-ui/react'
 
 function CreateEvent(props) {
@@ -34,13 +34,13 @@ function CreateEvent(props) {
           <div className="container">
             <label>Title</label>
             <div className="flex-container">
-              <Input className="input" placeholder="Add Title" />
+              <Input className="input" />
             </div>
           </div>
           <div className="container">
             <label>Start Date</label>
             <div className="flex-container">
-              <Datetime className="start-date" />
+              <Datetime className='start-date' />
             </div>
           </div>
           <div className="container">
