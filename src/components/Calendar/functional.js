@@ -34,7 +34,7 @@ function CreateEvent(props) {
           <div className="container">
             <label>Title</label>
             <div className="flex-container">
-              <Input className="input" />
+              <Input className="input" placeholder="Add Title"/>
             </div>
           </div>
           <div className="container">
