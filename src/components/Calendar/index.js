@@ -15,7 +15,7 @@ const events = [
     start: new Date(2022, 4, 26, 2, 0, 0),
     end: new Date(2022, 4, 26, 3, 30, 0),
   },
-];
+]
 
 export default function Cal(props) {
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
@@ -29,7 +29,7 @@ export default function Cal(props) {
     <div>
       <h1 className="heading">Sandbox Scheduler</h1>
       <div className="btn">
-        <CreateEvent />
+        <CreateEvent/>
       </div>
       <Calendar
         localizer={localizer}

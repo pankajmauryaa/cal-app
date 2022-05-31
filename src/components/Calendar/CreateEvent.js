@@ -7,10 +7,12 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
+  Input,
 } from "@momentum-ui/react";
 
 export default class EventModal extends React.PureComponent {
-  state = { showModal: false };
+  state = { showModal: false };  
+  
   render() {
     return (
       <div className="row">
@@ -20,6 +22,7 @@ export default class EventModal extends React.PureComponent {
           color="blue"
         />
         <Modal
+         applicationId="sandbox-scheduler"
           onHide={() => this.setState({ showModal: false })}
           show={this.state.showModal}
           ref={(modal1) => (this.modal1 = modal1)}
@@ -31,13 +34,16 @@ export default class EventModal extends React.PureComponent {
             <div className="container">
               <label>Title</label>
               <div className="flex-container">
-                <input className="input" />
+                <Input
+                  className="input"
+                  placeholder="Add Title"
+                />
               </div>
             </div>
             <div className="container">
               <label>Start Date</label>
               <div className="flex-container">
-                <Datetime />
+                <Datetime className="start-date" />
               </div>
             </div>
             <div className="container">
@@ -56,7 +62,7 @@ export default class EventModal extends React.PureComponent {
             <Button
               children="Create"
               type="submit"
-              onClick={() => this.props.handleAddEvent()}
+              // onClick={() => this.state.handleAddEvent()}
               color="blue"
             />
           </ModalFooter>
