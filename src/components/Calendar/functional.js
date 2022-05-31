@@ -9,7 +9,6 @@ import {
   ModalHeader,
 } from '@momentum-ui/react'
 
-
 function CreateEvent(props) {
   const [showConfirmRemove, setShowConfirmRemove] = useState(false)
   const confirmRemoveModalRef = useRef()
