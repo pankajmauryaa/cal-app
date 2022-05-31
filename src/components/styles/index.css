@@ -13,10 +13,18 @@
 .container {
     display: flex;
     align-items: center;
-    margin-left: 12em;
+    justify-content: center;
 }
- 
- .flex-container{
-    margin: 25px;
- }
 
+.flex-container {
+    margin: 25px;
+}
+
+.input {
+    margin-left: 40px;
+    margin-bottom: auto;
+}
+
+.end-date {
+    margin-left: 7px;
+}

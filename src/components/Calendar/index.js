@@ -4,9 +4,8 @@ import moment from "moment";
 import { useState } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "@momentum-ui/core/css/momentum-ui.min.css";
-import CreateEvent from './CreateEvent';
-import '../styles/index.css';
-
+import CreateEvent from "./CreateEvent";
+import "../styles/index.css";
 
 const localizer = momentLocalizer(moment);
 
@@ -17,7 +16,6 @@ const events = [
     end: new Date(2022, 4, 26, 3, 30, 0),
   },
 ];
-
 
 export default function Cal(props) {
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
@@ -45,7 +43,6 @@ export default function Cal(props) {
   );
 }
 
-
 /*
 
         <Input
@@ -64,7 +61,7 @@ export default function Cal(props) {
           onChange={(end) => setNewEvent({ ...newEvent, end })}
         />
         <Button ariaLabel="Test" color="blue" onClick={handleAddEvent}>
-          Add Evenć
+          Add Event
         </Button>
       </div>
 */

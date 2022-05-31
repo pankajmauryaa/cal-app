@@ -1,7 +1,13 @@
 import React from "react";
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
-import { Input, Button, Modal, ModalBody, ModalFooter, ModalHeader, Label,} from "@momentum-ui/react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from "@momentum-ui/react";
 
 export default class EventModal extends React.PureComponent {
   state = { showModal: false };
@@ -23,21 +29,21 @@ export default class EventModal extends React.PureComponent {
           <ModalHeader headerLabel="Create Event" showCloseButton />
           <ModalBody>
             <div className="container">
-              <Label>Title</Label>
+              <label>Title</label>
               <div className="flex-container">
-                <Input />
+                <input className="input" />
               </div>
             </div>
             <div className="container">
-              <Label>Start Date</Label>
+              <label>Start Date</label>
               <div className="flex-container">
                 <Datetime />
               </div>
             </div>
             <div className="container">
-              <Label>End Date</Label>
+              <label>End Date</label>
               <div className="flex-container">
-                <Datetime />
+                <Datetime className="end-date" />
               </div>
             </div>
           </ModalBody>
@@ -45,14 +51,12 @@ export default class EventModal extends React.PureComponent {
             <Button
               children="Close"
               onClick={() => this.modal1.closeModal()}
-              ariaLabel="Close Modal"
               color="default"
             />
             <Button
               children="Create"
               type="submit"
               onClick={() => this.props.handleAddEvent()}
-              ariaLabel="Submit Form"
               color="blue"
             />
           </ModalFooter>
