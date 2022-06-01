@@ -34,7 +34,7 @@ function CreateEvent(props) {
           <div className="container">
             <label>Title</label>
             <div className="flex-container">
-              <Input className="input" />
+              <Input className="input"/>
             </div>
           </div>
           <div className="container">
@@ -46,7 +46,7 @@ function CreateEvent(props) {
           <div className="container">
             <label>End Date</label>
             <div className="flex-container">
-              <Datetime className="end-date" />
+              <Datetime className="end-date"/>
             </div>
           </div>
         </ModalBody>

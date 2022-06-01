@@ -4112,7 +4112,7 @@ date-arithmetic@^4.1.0:
   resolved "https://registry.yarnpkg.com/date-arithmetic/-/date-arithmetic-4.1.0.tgz#e5d6434e9deb71f79760a37b729e4a515e730ddf"
   integrity sha512-QWxYLR5P/6GStZcdem+V1xoto6DMadYWpMXU82ES3/RfR3Wdwr3D0+be7mgOJ+Ov0G9D5Dmb9T17sNLQYj9XOg==
 
-date-fns@^2.24.0, date-fns@^2.28.0:
+date-fns@^2.24.0:
   version "2.28.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.28.0.tgz#9570d656f5fc13143e50c975a3b6bbeb46cd08b2"
   integrity sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==
@@ -8487,10 +8487,10 @@ react-date-picker@^8.4.0:
     react-fit "^1.4.0"
     update-input-width "^1.2.2"
 
-react-datepicker@^4.7.0:
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-4.7.0.tgz#75e03b0a6718b97b84287933307faf2ed5f03cf4"
-  integrity sha512-FS8KgbwqpxmJBv/bUdA42MYqYZa+fEYcpc746DZiHvVE2nhjrW/dg7c5B5fIUuI8gZET6FOzuDgezNcj568Czw==
+react-datepicker@^4.8.0:
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-4.8.0.tgz#11b8918d085a1ce4781eee4c8e4641b3cd592010"
+  integrity sha512-u69zXGHMpxAa4LeYR83vucQoUCJQ6m/WBsSxmUMu/M8ahTSVMMyiyQzauHgZA2NUr9y0FUgOAix71hGYUb6tvg==
   dependencies:
     "@popperjs/core" "^2.9.2"
     classnames "^2.2.6"
