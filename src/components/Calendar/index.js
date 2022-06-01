@@ -22,9 +22,14 @@ const localizer = momentLocalizer(moment);
 
 const events = [
   {
-    title: "My Event",
-    start: new Date(2022, 4, 26, 2, 0, 0),
-    end: new Date(2022, 4, 26, 3, 30, 0),
+    title: "My Event-1",
+    start: new Date(2022, 5, 15, 2, 0, 0),
+    end: new Date(2022, 5, 15, 3, 30, 0),
+  },
+  {
+    title: "My Event-2",
+    start: new Date(2022, 5, 16, 2, 0, 0),
+    end: new Date(2022, 5, 16, 3, 30, 0),
   },
 ];
 
@@ -75,6 +80,7 @@ export default function Cal() {
                 <label>Start Date</label>
                 <div className="flex-container">
                   <Datetime
+                    dateFormat="DD/MM/YYYY"
                     className="start-date"
                     selected={newEvent.start}
                     onChange={(start) => setNewEvent({ ...newEvent, start })}
@@ -85,6 +91,7 @@ export default function Cal() {
                 <label>End Date</label>
                 <div className="flex-container">
                   <Datetime
+                    dateFormat="DD/MM/YYYY"
                     className="end-date"
                     placeholderText="End Date"
                     selected={newEvent.end}

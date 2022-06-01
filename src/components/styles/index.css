@@ -1,3 +1,7 @@
+body {
+    overflow: hidden;
+}
+
 .heading {
     margin-top: 10px;
     text-align: center;
@@ -7,7 +11,7 @@
 .btn {
     float: right;
     margin-top: 20px;
-    margin-right: 90px;
+    margin-right: 80px;
 }
 
 .container {
@@ -22,17 +26,16 @@
 }
 
 .input {
-    margin-right: -20px;
+    margin-right: -25px;
     margin-left: 120px;
     margin-bottom: auto;
     width: 60%;
 }
 
-.start-date{
+.start-date {
     margin-left: 80px;
 }
 
 .end-date {
     margin-left: 90px;
 }
-
