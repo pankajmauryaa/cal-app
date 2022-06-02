@@ -34,7 +34,7 @@ const events = [
 ];
 
 export default function Cal() {
-  const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
+  const [newEvent, setNewEvent] = useState({ title: "", start: new Date(0), end: new Date(0)});
   const [allEvents, setAllEvents] = useState(events);
   const [showConfirmRemove, setShowConfirmRemove] = useState(false);
   const confirmRemoveModalRef = useRef();
@@ -83,7 +83,7 @@ export default function Cal() {
                     dateFormat="DD/MM/YYYY"
                     className="start-date"
                     selected={newEvent.start}
-                    onChange={(start) => setNewEvent({ ...newEvent, start })}
+                    onChange={(start) => setNewEvent({ ...newEvent, start: new Date(start) })}
                   />
                 </div>
               </div>
@@ -95,7 +95,7 @@ export default function Cal() {
                     className="end-date"
                     placeholderText="End Date"
                     selected={newEvent.end}
-                    onChange={(end) => setNewEvent({ ...newEvent, end })}
+                    onChange={(end) => setNewEvent({ ...newEvent, end: new Date(end)})}
                   />
                 </div>
               </div>
