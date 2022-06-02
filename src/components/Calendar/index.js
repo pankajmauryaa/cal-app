@@ -1,14 +1,14 @@
-import React from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import moment from "moment";
-import { useState, useRef } from "react";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import "@momentum-ui/core/css/momentum-ui.min.css";
+import React, { useEffect } from 'react'
+import { Calendar, momentLocalizer } from 'react-big-calendar'
+import moment from 'moment'
+import { useState, useRef } from 'react'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
+import '@momentum-ui/core/css/momentum-ui.min.css'
 // import CreateEvent from "./CreateEvent";
-// import CreateEvent from "./functional";
-import "../styles/index.css";
-import Datetime from "react-datetime";
-import "react-datetime/css/react-datetime.css";
+//import CreateEvent from "./functional";
+import '../styles/index.css'
+import Datetime from 'react-datetime'
+import 'react-datetime/css/react-datetime.css'
 import {
   Button,
   Modal,
@@ -16,31 +16,43 @@ import {
   ModalFooter,
   ModalHeader,
   Input,
-} from "@momentum-ui/react";
+} from '@momentum-ui/react'
+import { collection, addDoc, getDocs } from 'firebase/firestore'
+import { db } from '../../firebase-config'
 
-const localizer = momentLocalizer(moment);
+const localizer = momentLocalizer(moment)
 
 const events = [
   {
-    title: "My Event-1",
-    start: new Date(2022, 5, 15, 2, 0, 0),
-    end: new Date(2022, 5, 15, 3, 30, 0),
+    title: 'My Event',
+    start: new Date(2022, 5, 1, 2, 0, 0),
+    end: new Date(2022, 5, 1, 3, 30, 0),
   },
-  {
-    title: "My Event-2",
-    start: new Date(2022, 5, 16, 2, 0, 0),
-    end: new Date(2022, 5, 16, 3, 30, 0),
-  },
-];
+]
 
 export default function Cal() {
-  const [newEvent, setNewEvent] = useState({ title: "", start: new Date(0), end: new Date(0)});
-  const [allEvents, setAllEvents] = useState(events);
-  const [showConfirmRemove, setShowConfirmRemove] = useState(false);
-  const confirmRemoveModalRef = useRef();
+  const [newEvent, setNewEvent] = useState({ title: '', start: '', end: '' })
+  const [allEvents, setAllEvents] = useState(events)
+  const userCollectionRef = collection(db, 'events')
+  const [showConfirmRemove, setShowConfirmRemove] = useState(false)
+  const confirmRemoveModalRef = useRef()
+  //Create Operation
+  const createEvent = () => {
+    setAllEvents([...allEvents, newEvent])
+    addDoc(userCollectionRef, { title: newEvent.title, start: "", end: ""})
+  }
+  //Read Operation
+  useEffect(() => {
+    const getEvents = async () => {
+      const data = await getDocs(userCollectionRef)
+      console.log(data)
+      setNewEvent(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+    }
+    getEvents()
+  }, [])
 
   function handleAddEvent() {
-    setAllEvents([...allEvents, newEvent]);
+    setAllEvents([...allEvents, newEvent])
   }
 
   return (
@@ -83,7 +95,7 @@ export default function Cal() {
                     dateFormat="DD/MM/YYYY"
                     className="start-date"
                     selected={newEvent.start}
-                    onChange={(start) => setNewEvent({ ...newEvent, start: new Date(start) })}
+                    onChange={(start) => setNewEvent({ ...newEvent, start:new Date(start) })}
                   />
                 </div>
               </div>
@@ -95,10 +107,11 @@ export default function Cal() {
                     className="end-date"
                     placeholderText="End Date"
                     selected={newEvent.end}
-                    onChange={(end) => setNewEvent({ ...newEvent, end: new Date(end)})}
+                    onChange={(end) => setNewEvent({ ...newEvent, end:new Date(end) })}
                   />
                 </div>
               </div>
+              
             </ModalBody>
             <ModalFooter>
               <Button
@@ -110,7 +123,8 @@ export default function Cal() {
                 children="Create"
                 type="submit"
                 color="blue"
-                onClick={handleAddEvent}
+                //onClick={handleAddEvent}
+                onClick={createEvent}
               />
             </ModalFooter>
           </Modal>
@@ -122,11 +136,11 @@ export default function Cal() {
         events={allEvents}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 500, margin: "80px" }}
+        style={{ height: 500, margin: '80px' }}
         timeslots={1}
       />
     </div>
-  );
+  )
 }
 
 /*
