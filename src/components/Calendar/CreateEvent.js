@@ -1,6 +1,6 @@
-import React from "react";
-import Datetime from "react-datetime";
-import "react-datetime/css/react-datetime.css";
+import React, { useState } from 'react'
+import Datetime from 'react-datetime'
+import 'react-datetime/css/react-datetime.css'
 import {
   Button,
   Modal,
@@ -8,63 +8,75 @@ import {
   ModalFooter,
   ModalHeader,
   Input,
-} from "@momentum-ui/react";
+} from '@momentum-ui/react'
 
-export default class EventModal extends React.PureComponent {
-  state = { showModal: false };
-
-  render() {
-    return (
-      <div className="row">
+function CreateEvent(props) {
+  const [newEvent, setNewEvent] = useState({ title: '', start: '', end: '' })
+  return (
+    <Modal
+      applicationId="sandbox-scheduler"
+      onHide={() => props.setCreateModalStatus(false)}
+      show={props.showCreateModal}
+      htmlId="modal1"
+      backdropClickExit
+    >
+      <ModalHeader headerLabel="Create Event" showCloseButton />
+      <ModalBody>
+        <div className="container">
+          <label>Title</label>
+          <div className="flex-container">
+            <Input
+              className="input"
+              value={newEvent.title}
+              onChange={(e) =>
+                setNewEvent({ ...newEvent, title: e.target.value })
+              }
+            />
+          </div>
+        </div>
+        <div className="container">
+          <label>Start Date</label>
+          <div className="flex-container">
+            <Datetime
+              dateFormat="DD/MM/YYYY"
+              className="start-date"
+              selected={newEvent.start}
+              onChange={(start) =>
+                setNewEvent({ ...newEvent, start: new Date(start) })
+              }
+            />
+          </div>
+        </div>
+        <div className="container">
+          <label>End Date</label>
+          <div className="flex-container">
+            <Datetime
+              dateFormat="DD/MM/YYYY"
+              className="end-date"
+              placeholderText="End Date"
+              selected={newEvent.end}
+              onChange={(end) =>
+                setNewEvent({ ...newEvent, end: new Date(end) })
+              }
+            />
+          </div>
+        </div>
+      </ModalBody>
+      <ModalFooter>
         <Button
-          children="Create Event"
-          onClick={() => this.setState({ showModal: true })}
-          color="blue"
+          children="Close"
+          onClick={() => props.setCreateModalStatus(false)}
+          color="default"
         />
-        <Modal
-          applicationId="sandbox-scheduler"
-          onHide={() => this.setState({ showModal: false })}
-          show={this.state.showModal}
-          ref={(modal1) => (this.modal1 = modal1)}
-          htmlId="modal1"
-          backdropClickExit
-        >
-          <ModalHeader headerLabel="Create Event" showCloseButton />
-          <ModalBody>
-            <div className="container">
-              <label>Title</label>
-              <div className="flex-container">
-                <Input className="input" placeholder="Add Title" />
-              </div>
-            </div>
-            <div className="container">
-              <label>Start Date</label>
-              <div className="flex-container">
-                <Datetime className="start-date" />
-              </div>
-            </div>
-            <div className="container">
-              <label>End Date</label>
-              <div className="flex-container">
-                <Datetime className="end-date" />
-              </div>
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              children="Close"
-              onClick={() => this.modal1.closeModal()}
-              color="default"
-            />
-            <Button
-              children="Create"
-              type="submit"
-              // onClick={() => this.state.handleAddEvent()}
-              color="blue"
-            />
-          </ModalFooter>
-        </Modal>
-      </div>
-    );
-  }
+        <Button
+          children="Create"
+          type="submit"
+          color="blue"
+          onClick={() => props.createEvent(newEvent)}
+        />
+      </ModalFooter>
+    </Modal>
+  )
 }
+
+export default CreateEvent
