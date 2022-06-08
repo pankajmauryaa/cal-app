@@ -9,7 +9,7 @@ body {
 }
 
 .md-modal__title {
-    font-size: larger
+    font-size: larger;
 }
 
 .btn {
@@ -41,9 +41,5 @@ body {
 }
 
 .end-date {
-    margin-left: 90px;
-}
-
-.del{
-    float: left;
+    margin-left: 88px;
 }

@@ -1,9 +1,10 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "@firebase/firestore";
+import { getDatabase } from 'firebase/database';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBw3ayJHEO3ALXkRX3Fg4SjA3uxKN9eYa8",
   authDomain: "sandboxschedule.firebaseapp.com",
+  databaseURL: "https://sandboxschedule-default-rtdb.firebaseio.com",
   projectId: "sandboxschedule",
   storageBucket: "sandboxschedule.appspot.com",
   messagingSenderId: "949748127671",
@@ -13,4 +14,4 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-export const db = getFirestore(app);
+export const database = getDatabase();

@@ -7,52 +7,55 @@ import "@momentum-ui/core/css/momentum-ui.min.css";
 import "../styles/index.css";
 import "react-datetime/css/react-datetime.css";
 import { Button } from "@momentum-ui/react";
-import { collection, addDoc, getDocs } from "firebase/firestore";
-import { db } from "../../firebase-config";
+import { database } from "../../firebase-config";
 import CreateEvent from "./CreateEvent";
-import UpdateEvent from "./UpdateEvent";
+import EditEvent from "./EditEvent";
+import { onValue, ref, update } from "firebase/database";
 
 const localizer = momentLocalizer(moment);
 
 export default function Cal() {
   const [allEvents, setAllEvents] = useState([]);
   const [showCreateModal, setCreateModalStatus] = useState(false);
-  const [ eventData, setEventData ] = useState([])
+  const [showEditModal, setEditModalStatus] = useState(false);
+  const [selectedEventObj, setSelectedEventObj] = useState({});
 
-  const userCollectionRef = collection(db, "events");
-
-  //Create Operation
   const createEvent = (newEvent) => {
-    setAllEvents([...allEvents, newEvent]);
-    addDoc(userCollectionRef, {
+    const t = new Date();
+    const events = ref(database, "Events/" + t.getTime());
+    update(events, {
       title: newEvent.title,
       start: newEvent.start,
       end: newEvent.end,
-    });
-    setCreateModalStatus(false);
+    })
+      .then(() => {
+        setCreateModalStatus(false);
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
   };
 
-  function handleShow() {
-		setCreateModalStatus(true)
-	}
-
-  // Read Operation
   useEffect(() => {
-    const getEvents = async () => {
-      const querySnapshot = await getDocs(userCollectionRef);
-      querySnapshot.forEach((doc) => {
-        //   // doc.data() is never undefined for query doc snapshots
-        console.log(doc.data());
-      });
 
-      setAllEvents(
-        querySnapshot.docs.map((doc) => ({
-          ...doc.querySnapshot(),
-          id: doc.id,
-        }))
-      );
-    };
-    getEvents();
+    const All_events = ref(database, "Events/");
+    onValue(All_events, async (snapshots) => {
+      if (snapshots.exists()) {
+        let arrfromobj = Object.entries(snapshots.val()).map((data, index) => {
+          let obj = {
+            id: data[0],
+            title: data[1].title,
+            start: new Date(data[1].start),
+            end: new Date(data[1].end),
+          };
+          return obj;
+        });
+        let resolved = await Promise.all(arrfromobj);
+        setAllEvents(resolved);
+      } else {
+        setAllEvents([]);
+      }
+    });
   }, []);
 
   return (
@@ -61,6 +64,7 @@ export default function Cal() {
       <div className="btn">
         <div className="row">
           <Button
+            className="head"
             children="Create Event"
             onClick={() => setCreateModalStatus(true)}
             color="blue"
@@ -74,19 +78,25 @@ export default function Cal() {
           )}
         </div>
       </div>
+      {showEditModal && (
+        <EditEvent
+          showEditModal={showEditModal}
+          setEditModalStatus={setEditModalStatus}
+          selectedObj={selectedEventObj}
+        />
+      )}
 
       <Calendar
         localizer={localizer}
         events={allEvents}
+        onSelectEvent={(e) => {
+          setSelectedEventObj(e);
+          setEditModalStatus(true);
+        }}
         startAccessor="start"
         endAccessor="end"
         style={{ height: 500, margin: "80px" }}
         timeslots={1}
-        popup
-				onSelectEvent={(event) => {
-					handleShow()
-					setEventData(event)
-				}}
       />
     </div>
   );
