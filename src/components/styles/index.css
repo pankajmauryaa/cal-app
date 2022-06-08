@@ -8,6 +8,10 @@ body {
     font-weight: bold;
 }
 
+.md-modal__title {
+    font-size: larger
+}
+
 .btn {
     float: right;
     margin-top: 20px;
@@ -29,7 +33,7 @@ body {
     margin-right: -25px;
     margin-left: 120px;
     margin-bottom: auto;
-    width: 60%;
+    width: 61%;
 }
 
 .start-date {
@@ -38,4 +42,8 @@ body {
 
 .end-date {
     margin-left: 90px;
+}
+
+.del{
+    float: left;
 }

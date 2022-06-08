@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import Datetime from 'react-datetime'
-import 'react-datetime/css/react-datetime.css'
+import React, { useState } from "react";
+import Datetime from "react-datetime";
+import "react-datetime/css/react-datetime.css";
 import {
   Button,
   Modal,
@@ -8,10 +8,10 @@ import {
   ModalFooter,
   ModalHeader,
   Input,
-} from '@momentum-ui/react'
+} from "@momentum-ui/react";
 
 function CreateEvent(props) {
-  const [newEvent, setNewEvent] = useState({ title: '', start: '', end: '' })
+  const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
   return (
     <Modal
       applicationId="sandbox-scheduler"
@@ -76,7 +76,7 @@ function CreateEvent(props) {
         />
       </ModalFooter>
     </Modal>
-  )
+  );
 }
 
-export default CreateEvent
+export default CreateEvent;
