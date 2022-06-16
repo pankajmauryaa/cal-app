@@ -8,6 +8,8 @@ import {
   ModalFooter,
   ModalHeader,
   Input,
+  Select,
+  SelectOption,
 } from "@momentum-ui/react";
 import { ref, remove, update } from "firebase/database";
 import { database } from "../../firebase-config";
@@ -16,11 +18,14 @@ export default function EditEvent(props) {
   const [title, setTitle] = useState(props.selectedObj.title);
   const [start, setStart] = useState(new Date(props.selectedObj.start));
   const [end, setEnd] = useState(new Date(props.selectedObj.end));
+  const [description, setDescription] = useState(props.selectedObj.description);
+  const [type, setType] = useState(props.selectedObj.type);
   return (
     <Modal
       applicationId="sandbox-scheduler"
       onHide={() => props.setCreateModalStatus(false)}
       show={props.showEditModal}
+      size="small"
       htmlId="modal1"
       backdropClickExit
     >
@@ -61,6 +66,34 @@ export default function EditEvent(props) {
             />
           </div>
         </div>
+        <div className="container">
+          <label className="desc">Description</label>
+          <div className="flex-container ">
+            <div className="medium-10 des">
+              <textarea
+                selected={description}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <div className="container last">
+          <label className="type">Type</label>
+          <div className="flex-container">
+            <Select
+              defaultValue="Select Scheduler"
+              className="select"
+              selected={type}
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+            >
+              <SelectOption value="scheduler1" label="scheduler1" />
+              <SelectOption value="scheduler2" label="scheduler2" />
+              <SelectOption value="scheduler3" label="scheduler3" />
+            </Select>
+          </div>
+        </div>
       </ModalBody>
       <ModalFooter>
         <Button
@@ -87,6 +120,7 @@ export default function EditEvent(props) {
               title: title,
               start: start,
               end: end,
+              description: description,
             })
               .then(() => {
                 props.setEditModalStatus(false);
@@ -100,6 +134,7 @@ export default function EditEvent(props) {
           children="Close"
           onClick={() => props.setEditModalStatus(false)}
           color="default"
+          id="small-1"
         />
       </ModalFooter>
     </Modal>
