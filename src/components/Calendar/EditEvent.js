@@ -19,7 +19,10 @@ export default function EditEvent(props) {
   const [start, setStart] = useState(new Date(props.selectedObj.start));
   const [end, setEnd] = useState(new Date(props.selectedObj.end));
   const [description, setDescription] = useState(props.selectedObj.description);
-  const [type, setType] = useState(props.selectedObj.type);
+  const [schedulertype, setSchedulerType] = useState(
+    props.selectedObj.schedulertype
+  );
+  const [color, setColor] = useState(props.selectedObj.color);
   return (
     <Modal
       applicationId="sandbox-scheduler"
@@ -84,14 +87,26 @@ export default function EditEvent(props) {
             <Select
               defaultValue="Select Scheduler"
               className="select"
-              selected={type}
-              value={type}
-              onChange={(e) => setType(e.target.value)}
+              selected={schedulertype}
+              value={schedulertype}
+              onChange={(e) => setSchedulerType(e[0].value)}
             >
               <SelectOption value="scheduler1" label="scheduler1" />
               <SelectOption value="scheduler2" label="scheduler2" />
               <SelectOption value="scheduler3" label="scheduler3" />
             </Select>
+          </div>
+        </div>
+        <div className="container color">
+          <label className="col">Event Color</label>
+          <div className="flex-container">
+            <Input
+              className="col-field"
+              type="color"
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
+              style={{ marginRight: "20px", marginLeft: "3px" }}
+            />
           </div>
         </div>
       </ModalBody>
@@ -121,6 +136,8 @@ export default function EditEvent(props) {
               start: start,
               end: end,
               description: description,
+              schedulertype: schedulertype ? schedulertype : null,
+              color: color ? color : null,
             })
               .then(() => {
                 props.setEditModalStatus(false);

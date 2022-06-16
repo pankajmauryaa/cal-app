@@ -19,6 +19,7 @@ function CreateEvent(props) {
     end: "",
     description: "",
     schedulertype: "",
+    color: "#000000",
   });
 
   return (
@@ -92,7 +93,7 @@ function CreateEvent(props) {
               selected={newEvent.schedulertype}
               value={newEvent.selected}
               onChange={(e) =>
-                setNewEvent({ ...newEvent, schedulertype: e.target.value })
+                setNewEvent({ ...newEvent, schedulertype: e[0].value })
               }
             >
               <SelectOption value="scheduler1" label="scheduler1" />
@@ -108,10 +109,11 @@ function CreateEvent(props) {
               className="col-field"
               type="color"
               selected={newEvent.color}
+              value={newEvent.selected}
               onChange={(e) =>
                 setNewEvent({ ...newEvent, type: e.target.value })
               }
-              style={{ marginRight: "20px", marginLeft: "5px" }}
+              style={{ marginRight: "20px", marginLeft: "3px" }}
             />
           </div>
         </div>
@@ -130,6 +132,7 @@ function CreateEvent(props) {
         />
       </ModalFooter>
     </Modal>
+
   );
 }
 
