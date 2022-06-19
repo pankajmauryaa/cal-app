@@ -11,17 +11,17 @@ import {
   Select,
   SelectOption,
 } from "@momentum-ui/react";
-import { ref, remove, update } from "firebase/database";
-import { database } from "../../firebase-config";
+import { firestore } from "../../firebase-config";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 
 export default function EditEvent(props) {
   const [title, setTitle] = useState(props.selectedObj.title);
-  const [start, setStart] = useState(new Date(props.selectedObj.start));
-  const [end, setEnd] = useState(new Date(props.selectedObj.end));
-  const [description, setDescription] = useState(props.selectedObj.description);
-  const [schedulertype, setSchedulerType] = useState(
-    props.selectedObj.schedulertype
+  const [start, setStart] = useState(
+    new Date(props.selectedObj.start).getTime()
   );
+  const [end, setEnd] = useState(new Date(props.selectedObj.end).getTime());
+  const [description, setDescription] = useState(props.selectedObj.description);
+  const [schedulertype, setSchedulerType] = useState(props.selectedObj.schedulertype);
   const [color, setColor] = useState(props.selectedObj.color);
   return (
     <Modal
@@ -51,8 +51,8 @@ export default function EditEvent(props) {
               dateFormat="DD/MM/YYYY"
               className="start-date"
               selected={start}
-              value={start}
-              onChange={(start) => setStart(new Date(start))}
+              value={new Date(start)}
+              onChange={(start) => setStart(new Date(start).toString())}
             />
           </div>
         </div>
@@ -62,10 +62,9 @@ export default function EditEvent(props) {
             <Datetime
               dateFormat="DD/MM/YYYY"
               className="end-date"
-              placeholderText="End Date"
               selected={end}
-              value={end}
-              onChange={(end) => setEnd(new Date(end))}
+              value={new Date(end)}
+              onChange={(end) => setEnd(new Date(end).toString())}
             />
           </div>
         </div>
@@ -89,7 +88,9 @@ export default function EditEvent(props) {
               className="select"
               selected={schedulertype}
               value={schedulertype}
-              onChange={(e) => setSchedulerType(e[0].value)}
+              onSelect={(e) => {
+                setSchedulerType(e[0].value);
+              }}
             >
               <SelectOption value="scheduler1" label="scheduler1" />
               <SelectOption value="scheduler2" label="scheduler2" />
@@ -115,8 +116,7 @@ export default function EditEvent(props) {
           children="Delete"
           color="red"
           onClick={() => {
-            const event = ref(database, "Events/" + props.selectedObj.id);
-            remove(event)
+            deleteDoc(doc(firestore, "Events", props.selectedObj.id))
               .then(() => {
                 props.setEditModalStatus(false);
               })
@@ -130,8 +130,7 @@ export default function EditEvent(props) {
           type="submit"
           color="blue"
           onClick={() => {
-            const event = ref(database, "Events/" + props.selectedObj.id);
-            update(event, {
+            updateDoc(doc(firestore, "Events", props.selectedObj.id), {
               title: title,
               start: start,
               end: end,

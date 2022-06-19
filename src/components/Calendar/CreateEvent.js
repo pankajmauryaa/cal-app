@@ -53,7 +53,7 @@ function CreateEvent(props) {
               className="start-date"
               selected={newEvent.start}
               onChange={(start) =>
-                setNewEvent({ ...newEvent, start: new Date(start) })
+                setNewEvent({ ...newEvent, start: new Date(start).toString()})
               }
             />
           </div>
@@ -66,7 +66,7 @@ function CreateEvent(props) {
               className="end-date"
               selected={newEvent.end}
               onChange={(end) =>
-                setNewEvent({ ...newEvent, end: new Date(end) })
+                setNewEvent({ ...newEvent, end: new Date(end).toString()})
               }
             />
           </div>
@@ -92,7 +92,7 @@ function CreateEvent(props) {
               className="select"
               selected={newEvent.schedulertype}
               value={newEvent.selected}
-              onChange={(e) =>
+              onSelect={(e) =>
                 setNewEvent({ ...newEvent, schedulertype: e[0].value })
               }
             >
