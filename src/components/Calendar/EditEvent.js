@@ -21,14 +21,16 @@ export default function EditEvent(props) {
   );
   const [end, setEnd] = useState(new Date(props.selectedObj.end).getTime());
   const [description, setDescription] = useState(props.selectedObj.description);
-  const [schedulertype, setSchedulerType] = useState(props.selectedObj.schedulertype);
-  const [color, setColor] = useState(props.selectedObj.color);
+  const [schedulertype, setSchedulerType] = useState(
+    props.selectedObj.schedulertype
+  );
+
   return (
     <Modal
       applicationId="sandbox-scheduler"
       onHide={() => props.setCreateModalStatus(false)}
       show={props.showEditModal}
-      size="small"
+      size="medium"
       htmlId="modal1"
       backdropClickExit
     >
@@ -42,6 +44,34 @@ export default function EditEvent(props) {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
+          </div>
+        </div>
+        <div className="container last">
+          <label className="type">Type</label>
+          <div className="flex-container">
+            <Select
+              defaultValue="Select Scheduler"
+              className="select"
+              selected={schedulertype}
+              value={schedulertype}
+              onSelect={(e) => {
+                setSchedulerType(e[0].value);
+              }}
+            >
+              <SelectOption value="Sandbox" label="Sandbox" />
+            </Select>
+          </div>
+        </div>
+        <div className="container">
+          <label className="desc">Description</label>
+          <div className="flex-container ">
+            <div className="medium-10 des">
+              <textarea
+                selected={description}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
+            </div>
           </div>
         </div>
         <div className="container">
@@ -65,48 +95,6 @@ export default function EditEvent(props) {
               selected={end}
               value={new Date(end)}
               onChange={(end) => setEnd(new Date(end).toString())}
-            />
-          </div>
-        </div>
-        <div className="container">
-          <label className="desc">Description</label>
-          <div className="flex-container ">
-            <div className="medium-10 des">
-              <textarea
-                selected={description}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              ></textarea>
-            </div>
-          </div>
-        </div>
-        <div className="container last">
-          <label className="type">Type</label>
-          <div className="flex-container">
-            <Select
-              defaultValue="Select Scheduler"
-              className="select"
-              selected={schedulertype}
-              value={schedulertype}
-              onSelect={(e) => {
-                setSchedulerType(e[0].value);
-              }}
-            >
-              <SelectOption value="scheduler1" label="scheduler1" />
-              <SelectOption value="scheduler2" label="scheduler2" />
-              <SelectOption value="scheduler3" label="scheduler3" />
-            </Select>
-          </div>
-        </div>
-        <div className="container color">
-          <label className="col">Event Color</label>
-          <div className="flex-container">
-            <Input
-              className="col-field"
-              type="color"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-              style={{ marginRight: "20px", marginLeft: "3px" }}
             />
           </div>
         </div>
@@ -136,7 +124,6 @@ export default function EditEvent(props) {
               end: end,
               description: description,
               schedulertype: schedulertype ? schedulertype : null,
-              color: color ? color : null,
             })
               .then(() => {
                 props.setEditModalStatus(false);

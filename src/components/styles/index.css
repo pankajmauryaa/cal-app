@@ -25,7 +25,7 @@ body {
 }
 
 .flex-container {
-    margin: 10px;
+    margin: 8px;
     margin-left: 30px;
 }
 
@@ -33,7 +33,7 @@ body {
     margin-right: -25px;
     margin-left: 120px;
     margin-bottom: auto;
-    width: 61%;
+    width: 60.5%;
 }
 
 .start-date {
@@ -49,29 +49,18 @@ body {
 }
 
 .des {
-    margin-left: 73px;
     width: 70%;
+    margin-bottom: -2px;
+    margin: 0 0 -2px 71px;
 }
 
 .select {
-    margin-left: 120px;
-}
-
-.last,
-.color {
-    margin-top: -10px;
+    margin-left: 117px;
+    width: 62%;
+    margin-bottom: 2px;
 }
 
 .type {
-    margin-top: -20px;
-}
-
-.col {
-    margin-top: -20px;
-    margin-right: 15px;
-}
-
-.col-field {
-    margin-left: 170px;
     margin-top: -5px;
+    margin-left: -3px;
 }

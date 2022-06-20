@@ -27,7 +27,6 @@ export default function Cal() {
       end: newEvent.end,
       description: newEvent.description,
       schedulertype: newEvent.schedulertype,
-      color: newEvent.color,
     })
       .then(() => {
         setCreateModalStatus(false);
@@ -48,7 +47,6 @@ export default function Cal() {
             end: new Date(data.data().end),
             description: data.data().description,
             schedulertype: data.data().schedulertype,
-            color: data.data().color,
           };
           return obj;
         });
@@ -60,17 +58,6 @@ export default function Cal() {
     });
     return unsubscribeEventListner;
   }, []);
-
-  const eventStyleGetter = (event) => {
-    const style = {
-      backgroundColor: event?.color,
-      borderRadius: "5px",
-      opacity: 1,
-      display: "block",
-      color: "white",
-    };
-    return { style };
-  };
 
   return (
     <div>
@@ -111,7 +98,6 @@ export default function Cal() {
         endAccessor="end"
         style={{ height: 500, margin: "80px" }}
         timeslots={1}
-        eventPropGetter={eventStyleGetter}
       />
     </div>
   );
