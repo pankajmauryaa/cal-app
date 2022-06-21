@@ -36,6 +36,11 @@ body {
     width: 60.5%;
 }
 
+.rdtOpen .rdtPicker {
+    display: block;
+    position: fixed;
+}
+
 .start-date {
     margin-left: 80px;
 }
