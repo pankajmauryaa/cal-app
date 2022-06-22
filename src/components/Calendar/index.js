@@ -3,14 +3,13 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import { useState } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import "@momentum-ui/core/css/momentum-ui.min.css";
-import "../styles/index.css";
+import "@momentum-ui/core/css/momentum-ui.css";
+import "../../styles/index.css";
 import "react-datetime/css/react-datetime.css";
 import { Button } from "@momentum-ui/react";
-import { firestore } from "../../firebase-config";
-import CreateEvent from "./CreateEvent";
-import EditEvent from "./EditEvent";
-import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import { firestore } from "../../config/firebase-config";
+import EventModal from "./EventModal";
+import { collection, onSnapshot } from "firebase/firestore";
 
 const localizer = momentLocalizer(moment);
 
@@ -19,73 +18,83 @@ export default function Cal() {
   const [showCreateModal, setCreateModalStatus] = useState(false);
   const [showEditModal, setEditModalStatus] = useState(false);
   const [selectedEventObj, setSelectedEventObj] = useState({});
-
-  const createEvent = (newEvent) => {
-    addDoc(collection(firestore, "Events"), {
-      title: newEvent.title,
-      start: newEvent.start,
-      end: newEvent.end,
-      description: newEvent.description,
-      schedulertype: newEvent.schedulertype,
-    })
-      .then(() => {
-        setCreateModalStatus(false);
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  };
+  const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
-    const unsubscribeEventListner = onSnapshot(collection(firestore, "Events"),async (doc) => {
-      if (doc.docs) {
-        let arrfromobj = doc.docs.map((data) => {
-          let obj = {
-            id: data.id,
-            title: data.data().title,
-            start: new Date(data.data().start),
-            end: new Date(data.data().end),
-            description: data.data().description,
-            schedulertype: data.data().schedulertype,
-          };
-          return obj;
-        });
-        let resolved = await Promise.all(arrfromobj);
-        setAllEvents(resolved);
-      } else {
-        setAllEvents([]);
+    const unsubscribeEventListner = onSnapshot(
+      collection(firestore, "Events"),
+      async (doc) => {
+        if (doc.docs) {
+          let arrfromobj = doc.docs.map((data) => {
+            let obj = {
+              id: data.id,
+              title: data.data().title,
+              start: new Date(data.data().start),
+              end: new Date(data.data().end),
+              description: data.data().description,
+              schedulertype: data.data().schedulertype,
+              color: data.data().color,
+            };
+            return obj;
+          });
+          let resolved = await Promise.all(arrfromobj);
+          setAllEvents(resolved);
+          setIsFetching(false);
+        } else {
+          setAllEvents([]);
+          setIsFetching(false);
+        }
       }
-    });
+    );
     return unsubscribeEventListner;
   }, []);
 
+  // to style the events
+  const eventStyleGetter = (event) => {
+    const style = {
+      backgroundColor: event?.color,
+      borderRadius: "5px",
+      opacity: 1,
+      color: "white",
+      display: "block",
+    };
+    return { style };
+  };
+
+  if (isFetching) {
+    return (
+      <div className="spinner main">
+        <i
+          id="loading-spinner"
+          className="md-spinner md-spinner--36 md-spinner--blue"
+        />
+        <p className="wait-message">Please wait, fetching data...</p>
+      </div>
+    );
+  }
+
   return (
-    <div>
-      <h1 className="heading">Sandbox Scheduler</h1>
-      <div className="btn">
-        <div className="row">
+    <div className="main">
+      <h1 className="heading">Event Scheduler</h1>
+      <div className="create-btn">
+        <div className="row-end">
           <Button
             className="head"
             children="Create Event"
             onClick={() => setCreateModalStatus(true)}
             color="blue"
           />
-          {showCreateModal && (
-            <CreateEvent
+          {(showCreateModal || showEditModal) && (
+            <EventModal
               showCreateModal={showCreateModal}
               setCreateModalStatus={setCreateModalStatus}
-              createEvent={createEvent}
+              showEditModal={showEditModal}
+              setEditModalStatus={setEditModalStatus}
+              selectedObj={selectedEventObj}
             />
           )}
         </div>
       </div>
-      {showEditModal && (
-        <EditEvent
-          showEditModal={showEditModal}
-          setEditModalStatus={setEditModalStatus}
-          selectedObj={selectedEventObj}
-        />
-      )}
 
       <Calendar
         localizer={localizer}
@@ -96,8 +105,9 @@ export default function Cal() {
         }}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 500, margin: "80px" }}
+        style={{ height: 500, margin: "80px", width: "80%" }}
         timeslots={1}
+        eventPropGetter={eventStyleGetter}
       />
     </div>
   );
