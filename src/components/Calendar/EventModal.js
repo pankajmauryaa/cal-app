@@ -156,7 +156,7 @@ function EventModal(props) {
                 onChange={(start) =>
                   setEvent({
                     ...event,
-                    start: new Date(start).toString(),
+                    start: Number(moment(start).utc().format("x")),
                   })
                 }
               />
@@ -171,7 +171,7 @@ function EventModal(props) {
                 onChange={(end) =>
                   setEvent({
                     ...event,
-                    end: new Date(end).toString(),
+                    end: Number(moment(end).utc().format("x")),
                   })
                 }
               />
