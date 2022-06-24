@@ -105,9 +105,10 @@ export default function Cal() {
         }}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 500, margin: "80px", width: "80%" }}
+        style={{ height: 500, margin: "50px", width: "80%"}}
         timeslots={1}
         eventPropGetter={eventStyleGetter}
+        popup="true"
       />
     </div>
   );

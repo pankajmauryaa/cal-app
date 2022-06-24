@@ -17,7 +17,6 @@ import {
   schedulerOption,
   updateEvent,
 } from "../../Utils/utils";
-import moment from "moment";
 
 function EventModal(props) {
   const {
@@ -32,8 +31,8 @@ function EventModal(props) {
     title: showCreateModal ? "" : selectedObj.title,
     schedulertype: showCreateModal ? "" : selectedObj.schedulertype,
     description: showCreateModal ? "" : selectedObj.description,
-    start: showCreateModal ? "" : moment(props.selectedObj.end).utc(),
-    end: showCreateModal ? "" : moment(props.selectedObj.end).utc(),
+    start: showCreateModal ? "" : props.selectedObj.end,
+    end: showCreateModal ? "" : props.selectedObj.end,
     color: showCreateModal ? "" : selectedObj.color,
   };
 
@@ -96,7 +95,7 @@ function EventModal(props) {
   return (
     <div className="modal">
       <Modal
-        applicationId="sandbox-scheduler"
+        applicationId="event-scheduler"
         onHide={() => {
           setCreateModalStatus(false);
           setEditModalStatus(false);
@@ -107,7 +106,7 @@ function EventModal(props) {
         backdropClickExit
         className="modal"
       >
-        <ModalHeader headerLabel="Create Event" showCloseButton />
+        <ModalHeader headerLabel="Create Event" showCloseButton={false} />
         <ModalBody>
           <div className="container">
             <div className="options">
@@ -156,7 +155,7 @@ function EventModal(props) {
                 onChange={(start) =>
                   setEvent({
                     ...event,
-                    start: Number(moment(start).utc().format("x")),
+                    start: start,
                   })
                 }
               />
@@ -171,7 +170,7 @@ function EventModal(props) {
                 onChange={(end) =>
                   setEvent({
                     ...event,
-                    end: Number(moment(end).utc().format("x")),
+                    end: end,
                   })
                 }
               />
