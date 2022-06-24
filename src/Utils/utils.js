@@ -24,6 +24,7 @@ export const addEvent = async (newEvent) => {
     ...newEvent,
     end: convertToUTC(newEvent.end),
     start: convertToUTC(newEvent.start),
+
     color: schedulerOption[newEvent.schedulertype]?.color,
   });
 };
