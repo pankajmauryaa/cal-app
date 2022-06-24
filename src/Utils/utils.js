@@ -13,13 +13,18 @@ export const schedulerOption = {
   test: { name: "Testing", color: "orange" },
 };
 
+export const convertToUTC = (dateTime) => {
+  return Number(moment(dateTime).utc().format("x"));
+};
+
 // firebase CRUD
 
 export const addEvent = async (newEvent) => {
   addDoc(collection(firestore, "Events"), {
     ...newEvent,
-    end: Number(moment(newEvent.end).utc().format("x")),
-    start: Number(moment(newEvent.start).utc().format("x")),
+    end: convertToUTC(newEvent.end),
+    start: convertToUTC(newEvent.start),
+
     color: schedulerOption[newEvent.schedulertype]?.color,
   });
 };
@@ -27,8 +32,8 @@ export const addEvent = async (newEvent) => {
 export const updateEvent = async (event, id) => {
   updateDoc(doc(firestore, "Events", id), {
     ...event,
-    end: Number(moment(event.end).utc().format("x")),
-    start: Number(moment(event.start).utc().format("x")),
+    end: convertToUTC(event.end),
+    start: convertToUTC(event.start),
     color: schedulerOption[event.schedulertype]?.color,
   });
 };

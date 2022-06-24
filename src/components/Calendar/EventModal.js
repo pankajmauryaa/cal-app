@@ -31,51 +31,62 @@ function EventModal(props) {
     title: showCreateModal ? "" : selectedObj.title,
     schedulertype: showCreateModal ? "" : selectedObj.schedulertype,
     description: showCreateModal ? "" : selectedObj.description,
-    start: showCreateModal ? "" : props.selectedObj.end,
-    end: showCreateModal ? "" : props.selectedObj.end,
+    start: showCreateModal ? "" : selectedObj.start,
+    end: showCreateModal ? "" : selectedObj.end,
     color: showCreateModal ? "" : selectedObj.color,
   };
 
   const [event, setEvent] = useState(initialValues);
   const [inProgress, setInProgress] = useState(false);
-  const [isFieldsEmpty, setIsFieldsEmpty] = useState(false);
+
+  const validateInputs = (event) => {
+    const errorEl = document.querySelector(".error");
+    if (
+      event.title === "" ||
+      event.schedulertype === "" ||
+      event.start === "" ||
+      event.end === ""
+    ) {
+      errorEl.textContent = "Please fill all the fields";
+      return false;
+    }
+
+    if (event.start >= event.end) {
+      errorEl.textContent = "End date should be greater than start ";
+      return false;
+    }
+    return true;
+  };
 
   const handleCreate = (newEvent) => {
-    if (
-      newEvent.title === "" ||
-      newEvent.schedulertype === "" ||
-      newEvent.start === "" ||
-      newEvent.end === ""
-    ) {
-      setIsFieldsEmpty(true);
-      return;
+    if (validateInputs(newEvent)) {
+      setInProgress(true);
+      addEvent(newEvent)
+        .then(() => {
+          setCreateModalStatus(false);
+          setInProgress(false);
+        })
+        .catch((error) => {
+          setInProgress(false);
+          console.error(error.message);
+        });
     }
-    setInProgress(true);
-    console.log(newEvent);
-    addEvent(newEvent)
-      .then(() => {
-        setCreateModalStatus(false);
-        setInProgress(false);
-        isFieldsEmpty && setIsFieldsEmpty(false);
-      })
-      .catch((error) => {
-        setInProgress(false);
-        console.error(error.message);
-      });
   };
 
   const handleEdit = () => {
-    setInProgress(true);
-    updateEvent(event, selectedObj.id)
-      .then(() => {
-        setInProgress(false);
-        setEditModalStatus(false);
-      })
-      .catch((error) => {
-        console.error(error.message);
-        setInProgress(false);
-        setEditModalStatus(false);
-      });
+    if (validateInputs(event)) {
+      setInProgress(true);
+      updateEvent(event, selectedObj.id)
+        .then(() => {
+          setInProgress(false);
+          setEditModalStatus(false);
+        })
+        .catch((error) => {
+          console.error(error.message);
+          setInProgress(false);
+          setEditModalStatus(false);
+        });
+    }
   };
 
   const handleDelete = () => {
@@ -189,9 +200,7 @@ function EventModal(props) {
           </div>
         </ModalBody>
         <ModalFooter>
-          {isFieldsEmpty && (
-            <p className="empty-fields-error"> Please fill all the fields</p>
-          )}
+          <p className="error"></p>
           <Button
             children="Close"
             onClick={() => {
