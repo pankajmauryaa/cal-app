@@ -17,7 +17,6 @@ import {
   schedulerOption,
   updateEvent,
 } from "../../Utils/utils";
-import moment from "moment";
 
 function EventModal(props) {
   const {
@@ -107,7 +106,7 @@ function EventModal(props) {
         backdropClickExit
         className="modal"
       >
-        <ModalHeader headerLabel="Create Event" showCloseButton={false}/>
+        <ModalHeader headerLabel="Create Event" showCloseButton={false} />
         <ModalBody>
           <div className="container">
             <div className="options">
@@ -156,7 +155,7 @@ function EventModal(props) {
                 onChange={(start) =>
                   setEvent({
                     ...event,
-                    start: Number(moment(start).utc().format("x")),
+                    start: start,
                   })
                 }
               />
@@ -171,7 +170,7 @@ function EventModal(props) {
                 onChange={(end) =>
                   setEvent({
                     ...event,
-                    end: Number(moment(end).utc().format("x")),
+                    end: end,
                   })
                 }
               />
