@@ -101,8 +101,8 @@ textarea {
   padding-left: 16px;
 }
 
-.empty-fields-error {
+.error {
   color: crimson;
   margin-right: auto;
-  margin-left: 6rem;
+  margin-left: 5rem;
 }
