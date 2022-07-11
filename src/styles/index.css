@@ -106,3 +106,8 @@ textarea {
   margin-right: auto;
   margin-left: 5rem;
 }
+
+.required-field::after {
+  content: "*";
+  color: red;
+}

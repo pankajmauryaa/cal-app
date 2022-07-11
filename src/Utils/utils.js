@@ -9,8 +9,7 @@ import moment from "moment";
 import { firestore } from "../config/firebase-config";
 
 export const schedulerOption = {
-  sandbox: { name: "Sandbox", color: "blue" },
-  test: { name: "Testing", color: "orange" },
+  sandbox: { name: "Sandbox", color: "blue" }
 };
 
 export const convertToUTC = (dateTime) => {

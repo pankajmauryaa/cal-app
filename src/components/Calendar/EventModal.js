@@ -38,7 +38,7 @@ function EventModal(props) {
 
   const [event, setEvent] = useState(initialValues);
   const [inProgress, setInProgress] = useState(false);
-
+ 
   const validateInputs = (event) => {
     const errorEl = document.querySelector(".error");
     if (
@@ -121,7 +121,7 @@ function EventModal(props) {
         <ModalBody>
           <div className="container">
             <div className="options">
-              <label>Title</label>
+              <label className="required-field">Title</label>
               <Input
                 className="input"
                 value={event.title}
@@ -129,7 +129,7 @@ function EventModal(props) {
               />
             </div>
             <div className="options">
-              <label>Type</label>
+              <label className="required-field">Type</label>
               <Select
                 defaultValue={`${
                   showCreateModal
@@ -157,7 +157,7 @@ function EventModal(props) {
               </Select>
             </div>
             <div className="options">
-              <label>Start Date</label>
+              <label className="required-field">Start Date</label>
               <Datetime
                 dateFormat="DD/MM/YYYY"
                 className="input"
@@ -172,7 +172,7 @@ function EventModal(props) {
               />
             </div>
             <div className="options">
-              <label>End Date</label>
+              <label className="required-field">End Date</label>
               <Datetime
                 dateFormat="DD/MM/YYYY"
                 className="input"
