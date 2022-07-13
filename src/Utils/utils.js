@@ -16,6 +16,24 @@ export const convertToUTC = (dateTime) => {
   return Number(moment(dateTime).utc().format("x"));
 };
 
+
+const getMonthsInBetween = (fromDate, toDate) => {
+  const fromYear = fromDate.getFullYear();
+  const fromMonth = fromDate.getMonth();
+  const toYear = toDate.getFullYear();
+  const toMonth = toDate.getMonth();
+  const months = [];
+  for(let year = fromYear; year <= toYear; year++) {
+    let month = year === fromYear ? fromMonth : 0;
+    const monthLimit = year === toYear ? toMonth : 11;
+    for(; month <= monthLimit; month++) {
+      months.push(year+"-"+month)
+    }
+  }
+  return months;
+}
+
+
 // firebase CRUD
 
 export const addEvent = async (newEvent) => {
@@ -23,7 +41,7 @@ export const addEvent = async (newEvent) => {
     ...newEvent,
     end: convertToUTC(newEvent.end),
     start: convertToUTC(newEvent.start),
-
+    months:getMonthsInBetween(new Date(newEvent.start) ,new Date(newEvent.end)),
     color: schedulerOption[newEvent.schedulertype]?.color,
   });
 };

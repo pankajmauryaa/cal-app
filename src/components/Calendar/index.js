@@ -14,12 +14,27 @@ import { AlertContainer, Alert } from "@momentum-ui/react";
 
 const localizer = momentLocalizer(moment);
 
+const Loading = (isVisible)=>{
+  return(
+    <div style={{display:isVisible?"none":'initial',position:'absolute',background:'rgba(0,0,0,0.4)',width:'100%',zIndex:10}}>
+      <div className="spinner main">
+        <i
+          id="loading-spinner"
+          className="md-spinner md-spinner--36 md-spinner--blue"
+        />
+        <p style={{color:'white'}} className="wait-message">Please wait, fetching data...</p>
+      </div>
+    </div>
+  )
+}
+
 export default function Cal() {
   const [allEvents, setAllEvents] = useState([]);
   const [showCreateModal, setCreateModalStatus] = useState(false);
   const [showEditModal, setEditModalStatus] = useState(false);
   const [selectedEventObj, setSelectedEventObj] = useState({});
   const [isFetching, setIsFetching] = useState(true);
+  const [overLayLoading,setOverLayLoading] = useState(false)
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState("info");
   const [alertMessage, setAlertMessage] = useState();
@@ -30,14 +45,10 @@ export default function Cal() {
     alertMessage !== message && setAlertMessage(message);
   };
 
-  const populatEventFunction = (startRange, endRange) => {
-    const q = query(
-      collection(firestore, "Events"),
-      where("end", ">=", startRange),
-      where("end", "<=", endRange)
-    );
+  const populatEventFunction = (currentMonth)=>{
 
-    const eventListner = onSnapshot(q, async (doc) => {
+    const Q = query(collection(firestore, "Events"), where("months", "array-contains", currentMonth));
+    const eventListner = onSnapshot(Q, async (doc) => {
       if (doc.docs) {
         let arrfromobj = doc.docs.map((data) => {
           let obj = {
@@ -55,26 +66,18 @@ export default function Cal() {
         setAllEvents(resolved);
         console.log(resolved);
         setIsFetching(false);
+        setOverLayLoading(false)
       } else {
         setAllEvents([]);
         setIsFetching(false);
+        setOverLayLoading(false)
       }
     });
     return eventListner;
   };
-  useEffect(() => {
-    const tempDt = new Date();
-    const currentMonthStartDate = new Date(
-      tempDt.getFullYear(),
-      tempDt.getMonth(),
-      1
-    ).getTime();
-    const currentMonthENdDate = new Date(
-      tempDt.getFullYear(),
-      tempDt.getMonth() + 1,
-      1
-    ).getTime();
-    return populatEventFunction(currentMonthStartDate, currentMonthENdDate);
+  useEffect( () => {
+    const dt = new Date()
+    return populatEventFunction(dt.getFullYear()+"-"+(dt.getMonth()))
   }, []);
 
   // to style the events
@@ -125,6 +128,8 @@ export default function Cal() {
         </div>
       </div>
 
+      <Loading isVisible={overLayLoading} />
+
       <Calendar
         localizer={localizer}
         events={allEvents}
@@ -132,23 +137,14 @@ export default function Cal() {
           setSelectedEventObj(e);
           setEditModalStatus(true);
         }}
-        onRangeChange={(range, view) => {
-          if (range.start || view === "month") {
-            return populatEventFunction(
-              new Date(range.start).getTime(),
-              new Date(range.end).getTime()
-            );
-          } else if (range.length === 7) {
-            return populatEventFunction(
-              new Date(range[0]).getTime(),
-              new Date(range[6]).getTime()
-            );
-          } else if (range.length === 1) {
-            var startDate = new Date(range[0]);
-            var day = 60 * 60 * 24 * 1000;
-            var endDate = new Date(startDate.getTime() + day);
-            return populatEventFunction(startDate.getTime(), endDate.getTime());
+        onRangeChange={(range,view)=>{
+          if(range.start || view==='month'){
+            setOverLayLoading(true)
+            var dt = new Date(range.start)
+            dt.setDate(dt.getDate() + 8);
+            return populatEventFunction(dt.getFullYear()+"-"+(dt.getMonth()))
           }
+        
         }}
         startAccessor="start"
         endAccessor="end"
