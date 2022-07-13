@@ -10,6 +10,7 @@ import { Button } from "@momentum-ui/react";
 import { firestore } from "../../config/firebase-config";
 import EventModal from "./EventModal";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { AlertContainer, Alert } from "@momentum-ui/react";
 
 const localizer = momentLocalizer(moment);
 
@@ -19,9 +20,17 @@ export default function Cal() {
   const [showEditModal, setEditModalStatus] = useState(false);
   const [selectedEventObj, setSelectedEventObj] = useState({});
   const [isFetching, setIsFetching] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertType, setAlertType] = useState("info");
+  const [alertMessage, setAlertMessage] = useState();
+
+  const showAlertMessage = (type, message) => {
+    !showAlert && setShowAlert(true);
+    alertType !== type && setAlertType(type);
+    alertMessage !== message && setAlertMessage(message);
+  };
 
   const populatEventFunction = (startRange, endRange) => {
-    
     const q = query(
       collection(firestore, "Events"),
       where("end", ">=", startRange),
@@ -110,6 +119,7 @@ export default function Cal() {
               showEditModal={showEditModal}
               setEditModalStatus={setEditModalStatus}
               selectedObj={selectedEventObj}
+              showAlertMessage={showAlertMessage}
             />
           )}
         </div>
@@ -147,6 +157,18 @@ export default function Cal() {
         eventPropGetter={eventStyleGetter}
         popup="true"
       />
+
+      <AlertContainer>
+        <Alert
+          closable
+          message={alertMessage}
+          dismissBtnProps={{
+            onClick: () => setShowAlert(false),
+          }}
+          type={alertType}
+          show={showAlert}
+        />
+      </AlertContainer>
     </div>
   );
 }

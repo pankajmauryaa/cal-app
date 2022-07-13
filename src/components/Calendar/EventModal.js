@@ -25,6 +25,7 @@ function EventModal(props) {
     showEditModal,
     setEditModalStatus,
     selectedObj,
+    showAlertMessage,
   } = props;
 
   const initialValues = {
@@ -38,7 +39,7 @@ function EventModal(props) {
 
   const [event, setEvent] = useState(initialValues);
   const [inProgress, setInProgress] = useState(false);
- 
+
   const validateInputs = (event) => {
     const errorEl = document.querySelector(".error");
     if (
@@ -65,10 +66,14 @@ function EventModal(props) {
         .then(() => {
           setCreateModalStatus(false);
           setInProgress(false);
+
+          showAlertMessage("success", "Event created successfully");
         })
         .catch((error) => {
           setInProgress(false);
           console.error(error.message);
+
+          showAlertMessage("error", "Failed to create the event");
         });
     }
   };
@@ -80,11 +85,15 @@ function EventModal(props) {
         .then(() => {
           setInProgress(false);
           setEditModalStatus(false);
+
+          showAlertMessage("success", "Event updated successfully");
         })
         .catch((error) => {
           console.error(error.message);
           setInProgress(false);
           setEditModalStatus(false);
+
+          showAlertMessage("error", "Failed to update the event");
         });
     }
   };
@@ -95,11 +104,15 @@ function EventModal(props) {
       .then(() => {
         setInProgress(false);
         setEditModalStatus(false);
+
+        showAlertMessage("success", "Successfully deleted the event");
       })
       .catch((error) => {
         console.error(error.message);
         setInProgress(false);
         setEditModalStatus(false);
+
+        showAlertMessage("error", "Failed to delete the event");
       });
   };
 
